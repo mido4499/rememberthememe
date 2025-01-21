@@ -1,5 +1,8 @@
 # Remember the Meme
 
+## Demo
+[Play the Memory Grid Game](https://mido4499.github.io/rememberthememe/)
+
 ## Description
 A fun and challenging memory game that uses pictures of memes and requires the user to remember different pictures and match them accordingly.
 
