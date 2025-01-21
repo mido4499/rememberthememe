@@ -3,6 +3,7 @@ let numImages = 12;
 let select1;
 let select2;
 let clickCount = 0;
+let isChecking = false;
 
 async function delay(ms){
     //return new Promise(resolve => setTimeout(resolve, ms));
@@ -15,6 +16,7 @@ async function delay(ms){
 
 //Passed as a callback function to handle the clicking of the cells:
 async function handleClick(event){
+    if (isChecking) return;
     const cell = event.target.parentNode;  // This stores the <td> element clicked in a variable
     clickCount ++;  // Keeping track of a click counter
     if (clickCount === 1){  // ie. this is the first image to be selected
@@ -23,6 +25,7 @@ async function handleClick(event){
         select1.dataset.clicked = "true";
     }else{  //This is the second image to be selected
         select2 = cell;  // Copies the second cell to another variable
+        isChecking = true;
         if (select2.dataset.clicked === "false"){  // Makes sure the user is not selecting the same image twice
             select2.dataset.clicked = "true";
             select2.style.transform = "rotateY(180deg)";
@@ -38,18 +41,22 @@ async function handleClick(event){
             select1.dataset.clicked = "false";
             select2.dataset.clicked = "false";
         }
+        isChecking = false;
+
     }
 }
 
 // Logic to determine whether the selected images are identical
 function isIdentical(cell1, cell2){
-    src1 = cell1.children[0].children[0].src.slice(-8);
-    src2 = cell2.children[0].children[0].src.slice(-8);
-    if (src1 === src2){
-        return true;
-    }else{
+    try{
+        src1 = cell1.children[0].children[0].src.slice(-8);
+        src2 = cell2.children[0].children[0].src.slice(-8);
+    }
+    catch{
         return false;
     }
+    
+    return src1 === src2;
 }
 
 function restAreDeaf(cells, cell1, cell2){
